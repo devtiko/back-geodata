@@ -9,8 +9,8 @@ class Settings(BaseSettings):
   DB_PASSWORD: SecretStr = SecretStr("")
   DB_NAME: str = "geodata"
 
-  HOST: str = "localhost"
-  PORT: int = 8000
+  APP_HOST: str = "localhost"
+  APP_PORT: int = 8000
 
   LOG_LEVEL: str = "INFO"
 
