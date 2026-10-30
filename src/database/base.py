@@ -1,5 +1,7 @@
-from sqlalchemy import Column, DateTime, Integer, MetaData
-from sqlalchemy.orm import DeclarativeBase
+from datetime import datetime
+
+from sqlalchemy import DateTime, MetaData
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.sql import func
 
 POSTGRES_INDEXES_NAMING_CONVENTION = {
@@ -16,14 +18,13 @@ metadata = MetaData(naming_convention=POSTGRES_INDEXES_NAMING_CONVENTION)
 class Base(DeclarativeBase):
   metadata = metadata
 
-  id = Column(Integer, primary_key=True)
-  created_at = Column(
+  created_at: Mapped[datetime] = mapped_column(
     DateTime(timezone=True),
     nullable=False,
     default=func.now(),
     server_default=func.now(),
   )
-  updated_at = Column(
+  updated_at: Mapped[datetime] = mapped_column(
     DateTime(timezone=True),
     nullable=False,
     default=func.now(),

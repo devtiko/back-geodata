@@ -2,6 +2,7 @@ from logging.config import fileConfig
 
 from sqlalchemy import create_engine, pool
 
+import src.app.state.models  # noqa: F401
 from alembic import context
 from src.database.base import Base
 from src.database.session import database_url
@@ -18,6 +19,10 @@ if config.config_file_name is not None:
 # add your model's MetaData object here
 # for 'autogenerate' support
 target_metadata = Base.metadata
+
+
+def include_object(object, name, type_, reflected, compare_to):
+  return not (type_ == "table" and name in ["spatial_ref_sys", "topology", "layer"])
 
 
 def run_migrations_offline() -> None:
@@ -38,6 +43,7 @@ def run_migrations_offline() -> None:
     literal_binds=True,
     dialect_opts={"paramstyle": "named"},
     compare_type=True,
+    include_object=include_object,
   )
 
   with context.begin_transaction():
@@ -58,6 +64,7 @@ def run_migrations_online() -> None:
       connection=connection,
       target_metadata=target_metadata,
       compare_type=True,
+      include_object=include_object,
     )
 
     with context.begin_transaction():
