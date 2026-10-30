@@ -11,7 +11,9 @@ class MunicipalityRepository:
 
   def _apply_filters(self, query: Select, filters: MunicipalityFilters) -> Select:
     if filters.search:
-      query = query.where(Municipality.name.ilike(f"%{filters.search}%"))
+      query = query.where(
+        func.unaccent(Municipality.name).ilike(func.unaccent(f"%{filters.search}%"))
+      )
     if filters.state_id:
       query = query.where(Municipality.state_id == filters.state_id)
     return query

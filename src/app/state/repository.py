@@ -11,7 +11,9 @@ class StateRepository:
 
   def _apply_filters(self, query: Select, filters: StateFilters) -> Select:
     if filters is not None and filters.search:
-      query = query.where(State.name.ilike(f"%{filters.search}%"))
+      query = query.where(
+        func.unaccent(State.name).ilike(func.unaccent(f"%{filters.search}%"))
+      )
     return query
 
   def list(
