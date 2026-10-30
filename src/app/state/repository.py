@@ -23,7 +23,6 @@ class StateRepository:
 
     if filters:
       query = self._apply_filters(query, filters)
-
     if skip is not None:
       query = query.offset(skip)
     if limit is not None:
