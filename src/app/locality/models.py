@@ -23,8 +23,8 @@ class Locality(Base):
   municipality_id: Mapped[str] = mapped_column(
     String(5), ForeignKey("municipalities.id"), nullable=False, index=True
   )
-  latitud: Mapped[float | None] = mapped_column(Numeric(10, 7), nullable=True)
-  longitud: Mapped[float | None] = mapped_column(Numeric(11, 7), nullable=True)
+  latitude: Mapped[float | None] = mapped_column(Numeric(10, 7), nullable=True)
+  longitude: Mapped[float | None] = mapped_column(Numeric(11, 7), nullable=True)
   geometry: Mapped[WKBElement | None] = mapped_column(
     Geometry(geometry_type="MULTIPOLYGON", srid=6365), nullable=True
   )

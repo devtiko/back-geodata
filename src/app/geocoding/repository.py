@@ -87,13 +87,13 @@ class GeocodingRepository:
     max_distance_meters = 5_000
     query_point = func.ST_SetSRID(func.ST_MakePoint(longitude, latitude), 4326)
     locality_point = func.ST_SetSRID(
-      func.ST_MakePoint(Locality.longitud, Locality.latitud), 4326
+      func.ST_MakePoint(Locality.longitude, Locality.latitude), 4326
     )
     distance = func.ST_DistanceSphere(locality_point, query_point)
     query: Select = (
       select(Locality)
       .options(joinedload(Locality.municipality).joinedload(Municipality.state))
-      .where(Locality.latitud.is_not(None), Locality.longitud.is_not(None))
+      .where(Locality.latitude.is_not(None), Locality.longitude.is_not(None))
       .where(distance <= max_distance_meters)
       .order_by(distance, Locality.id)
       .limit(1)

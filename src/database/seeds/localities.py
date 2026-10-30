@@ -50,8 +50,8 @@ def _locality_values(record: dict[str, Any]) -> dict[str, Any]:
     "name": record["nomgeo"],
     "state_id": record["cve_ent"],
     "municipality_id": f"{record['cve_ent']}{record['cve_mun']}",
-    "latitud": _coordinate(record, "latitud"),
-    "longitud": _coordinate(record, "longitud"),
+    "latitude": _coordinate(record, "latitud"),
+    "longitude": _coordinate(record, "longitud"),
     "geometry": geometry_expression,
   }
 
@@ -80,8 +80,8 @@ def seed_localities(db: Session, source: Path = LOCALITIES_DIR) -> int:
         "name": statement.excluded.name,
         "state_id": statement.excluded.state_id,
         "municipality_id": statement.excluded.municipality_id,
-        "latitud": statement.excluded.latitud,
-        "longitud": statement.excluded.longitud,
+        "latitude": statement.excluded.latitude,
+        "longitude": statement.excluded.longitude,
         "geometry": statement.excluded.geometry,
       },
     )

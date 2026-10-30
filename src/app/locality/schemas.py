@@ -18,8 +18,8 @@ class LocalityResponse(BaseModel):
   name: str
   state_id: str
   municipality_id: str
-  latitud: float | None
-  longitud: float | None
+  latitude: float | None
+  longitude: float | None
   created_at: datetime | None = None
   updated_at: datetime | None = None
 

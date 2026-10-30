@@ -21,8 +21,8 @@ class ReverseLocality(BaseModel):
 
   id: str
   name: str
-  latitud: float | None
-  longitud: float | None
+  latitude: float | None
+  longitude: float | None
 
 
 class ReverseResponse(BaseModel):
