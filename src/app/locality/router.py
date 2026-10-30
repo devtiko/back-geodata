@@ -13,7 +13,7 @@ from src.common.schemas import PaginationParams
 router = APIRouter(prefix="/localities", tags=["localities"])
 
 
-@router.get("/", response_model=LocalityPaginatedResponse)
+@router.get("", response_model=LocalityPaginatedResponse)
 def list_localities(
   filters: Annotated[LocalityFilters, Depends()],
   pagination: Annotated[PaginationParams, Depends()],

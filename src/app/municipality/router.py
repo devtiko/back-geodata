@@ -16,7 +16,7 @@ from src.common.schemas import PaginationParams
 router = APIRouter(prefix="/municipalities", tags=["municipalities"])
 
 
-@router.get("/", response_model=MunicipalityPaginatedResponse)
+@router.get("", response_model=MunicipalityPaginatedResponse)
 def list_municipalities(
   filters: Annotated[MunicipalityFilters, Depends()],
   pagination: Annotated[PaginationParams, Depends()],
