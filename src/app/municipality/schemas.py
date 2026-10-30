@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from src.common.schemas import PaginatedResponse
 
@@ -11,14 +11,12 @@ class MunicipalityFilters(BaseModel):
 
 
 class MunicipalityResponse(BaseModel):
+  model_config = ConfigDict(from_attributes=True)
+
   id: str
   state_id: str
   name: str
   created_at: datetime | None = None
   updated_at: datetime | None = None
-
-  class Config:
-    from_attributes = True
-
 
 MunicipalityPaginatedResponse = PaginatedResponse[MunicipalityResponse]
