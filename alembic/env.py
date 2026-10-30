@@ -2,8 +2,9 @@ from logging.config import fileConfig
 
 from sqlalchemy import create_engine, pool
 
-import src.app.state.models  # noqa: F401
+import src.app.locality.models  # noqa: F401
 import src.app.municipality.models  # noqa: F401
+import src.app.state.models  # noqa: F401
 from alembic import context
 from src.database.base import Base
 from src.database.session import database_url

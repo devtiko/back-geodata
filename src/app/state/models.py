@@ -8,6 +8,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from src.database.base import Base
 
 if TYPE_CHECKING:
+  from src.app.locality.models import Locality
   from src.app.municipality.models import Municipality
 
 
@@ -21,3 +22,4 @@ class State(Base):
     Geometry(geometry_type="MULTIPOLYGON", srid=6365), nullable=True
   )
   municipalities: Mapped[list["Municipality"]] = relationship(back_populates="state")
+  localities: Mapped[list["Locality"]] = relationship(back_populates="state")

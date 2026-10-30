@@ -13,13 +13,8 @@ class StateService:
     self, filters: StateFilters, pagination: PaginationParams
   ) -> StatePaginatedResponse:
 
-    items = self.repository.list(
-      filters=filters, skip=pagination.skip, limit=pagination.limit
-    )
-
-    total_count = (
-      self.repository.count(filters=filters) if pagination.paginate else len(items)
-    )
+    items = self.repository.list(filters, pagination.skip, pagination.limit)
+    total_count = self.repository.count(filters) if pagination.paginate else len(items)
 
     return StatePaginatedResponse.create(
       items=[StateResponse.model_validate(item) for item in items],
