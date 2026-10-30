@@ -16,12 +16,8 @@ class MunicipalityService:
   def list(
     self, filters: MunicipalityFilters, pagination: PaginationParams
   ) -> MunicipalityPaginatedResponse:
-    items = self.repository.list(
-      filters=filters, skip=pagination.skip, limit=pagination.limit
-    )
-    total_count = (
-      self.repository.count(filters=filters) if pagination.paginate else len(items)
-    )
+    items = self.repository.list(filters, pagination.skip, pagination.limit)
+    total_count = self.repository.count(filters) if pagination.paginate else len(items)
 
     return MunicipalityPaginatedResponse.create(
       items=[MunicipalityResponse.model_validate(item) for item in items],

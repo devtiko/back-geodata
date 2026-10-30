@@ -38,7 +38,7 @@ def _municipality_values(record: dict[str, Any]) -> dict[str, Any]:
   return {
     "id": record["cvegeo"],
     "name": record["nomgeo"],
-    "state_id": record["cvegeo"][:2],
+    "state_id": record["cve_ent"],
     "geometry": geometry_expression,
   }
 

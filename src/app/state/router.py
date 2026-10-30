@@ -9,7 +9,7 @@ from src.common.schemas import PaginationParams
 router = APIRouter(prefix="/states", tags=["states"])
 
 
-@router.get("/", response_model=StatePaginatedResponse)
+@router.get("", response_model=StatePaginatedResponse)
 def list_states(
   filters: Annotated[StateFilters, Depends()],
   pagination: Annotated[PaginationParams, Depends()],
