@@ -1,0 +1,23 @@
+info:
+  name: geo reverse
+  type: http
+  seq: 7
+
+http:
+  method: GET
+  url: "{{API_BASE_URL}}/geocoding/reverse?lat=&lon="
+  params:
+    - name: lat
+      value: ""
+      type: query
+    - name: lon
+      value: ""
+      type: query
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false

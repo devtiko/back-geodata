@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from src.common.schemas import PaginatedResponse
 
@@ -10,14 +10,12 @@ class StateFilters(BaseModel):
 
 
 class StateResponse(BaseModel):
+  model_config = ConfigDict(from_attributes=True)
+
   id: str
   name: str
   short_name: str | None
   created_at: datetime | None = None
   updated_at: datetime | None = None
-
-  class Config:
-    from_attributes = True
-
 
 StatePaginatedResponse = PaginatedResponse[StateResponse]

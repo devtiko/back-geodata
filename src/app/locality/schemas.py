@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from src.common.schemas import PaginatedResponse
 
@@ -12,17 +12,15 @@ class LocalityFilters(BaseModel):
 
 
 class LocalityResponse(BaseModel):
+  model_config = ConfigDict(from_attributes=True)
+
   id: str
   name: str
   state_id: str
   municipality_id: str
-  latitud: float | None
-  longitud: float | None
+  latitude: float | None
+  longitude: float | None
   created_at: datetime | None = None
   updated_at: datetime | None = None
-
-  class Config:
-    from_attributes = True
-
 
 LocalityPaginatedResponse = PaginatedResponse[LocalityResponse]
