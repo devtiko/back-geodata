@@ -1,8 +1,17 @@
+from __future__ import annotations
+
+from typing import NamedTuple
+
 from sqlalchemy import Select, func, select
 from sqlalchemy.orm import Session, defer
 
 from src.app.locality.models import Locality
-from src.app.locality.schemas import LocalityFilters
+from src.app.locality.schemas import LocalityFilters, NearbyFilters
+
+
+class NearbyLocalityRow(NamedTuple):
+  locality: Locality
+  distance_km: float
 
 
 class LocalityRepository:
@@ -49,3 +58,34 @@ class LocalityRepository:
       .where(Locality.id == locality_id)
     )
     return self.db.scalars(query).one_or_none()
+
+  def nearby(
+    self,
+    filters: NearbyFilters,
+    skip: int | None,
+    limit: int | None,
+  ) -> tuple[list[NearbyLocalityRow], int]:
+    query_point = func.ST_SetSRID(
+      func.ST_MakePoint(filters.longitude, filters.latitude), 4326
+    )
+    locality_point = func.ST_SetSRID(
+      func.ST_MakePoint(Locality.longitude, Locality.latitude), 4326
+    )
+    distance_meters = func.ST_DistanceSphere(locality_point, query_point)
+    query: Select = (
+      select(Locality, (distance_meters / 1000).label("distance_km"))
+      .where(Locality.latitude.is_not(None), Locality.longitude.is_not(None))
+      .where(distance_meters <= filters.radius_km * 1000)
+      .options(defer(Locality.geometry, raiseload=True))
+    )
+
+    total = self.db.scalar(select(func.count()).select_from(query.subquery())) or 0
+    results_query = query.order_by(distance_meters, Locality.id)
+
+    if skip is not None:
+      results_query = results_query.offset(skip)
+    if limit is not None:
+      results_query = results_query.limit(limit)
+
+    rows = self.db.execute(results_query).unique().all()
+    return [NearbyLocalityRow(row[0], float(row[1])) for row in rows], total

@@ -7,6 +7,8 @@ from src.app.locality.schemas import (
   LocalityFilters,
   LocalityPaginatedResponse,
   LocalityResponse,
+  NearbyFilters,
+  NearbyLocalitiesResponse,
 )
 from src.common.schemas import PaginationParams
 
@@ -20,6 +22,15 @@ def list_localities(
   service: LocalityServiceDep,
 ) -> LocalityPaginatedResponse:
   return service.list(filters, pagination)
+
+
+@router.get("/nearby", response_model=NearbyLocalitiesResponse)
+def nearby_localities(
+  filters: Annotated[NearbyFilters, Depends()],
+  pagination: Annotated[PaginationParams, Depends()],
+  service: LocalityServiceDep,
+) -> NearbyLocalitiesResponse:
+  return service.nearby(filters, pagination)
 
 
 @router.get("/{locality_id}", response_model=LocalityResponse)

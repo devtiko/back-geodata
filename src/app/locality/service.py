@@ -5,6 +5,9 @@ from src.app.locality.schemas import (
   LocalityFilters,
   LocalityPaginatedResponse,
   LocalityResponse,
+  NearbyFilters,
+  NearbyLocalitiesResponse,
+  NearbyLocality,
 )
 from src.common.schemas import PaginationParams
 
@@ -33,3 +36,28 @@ class LocalityService:
         status_code=status.HTTP_404_NOT_FOUND, detail="Locality not found"
       )
     return LocalityResponse.model_validate(locality)
+
+  def nearby(
+    self,
+    filters: NearbyFilters,
+    pagination: PaginationParams,
+  ) -> NearbyLocalitiesResponse:
+    items, total_count = self.repository.nearby(
+      filters=filters,
+      skip=pagination.skip,
+      limit=pagination.limit,
+    )
+    results = [
+      NearbyLocality(
+        locality=LocalityResponse.model_validate(item.locality),
+        distance_km=round(item.distance_km, 2),
+      )
+      for item in items
+    ]
+    return NearbyLocalitiesResponse.create(
+      items=results,
+      page=pagination.page,
+      page_size=pagination.page_size,
+      total_count=total_count,
+      paginate=pagination.paginate,
+    )

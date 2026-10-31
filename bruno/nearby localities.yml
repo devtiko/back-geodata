@@ -1,0 +1,34 @@
+info:
+  name: nearby localities
+  type: http
+  seq: 9
+
+http:
+  method: GET
+  url: "{{API_BASE_URL}}/localities/nearby?radius_km=6&lat=&lon="
+  params:
+    - name: radius_km
+      value: "6"
+      type: query
+    - name: lat
+      value: ""
+      type: query
+    - name: lon
+      value: ""
+      type: query
+    - name: page
+      value: "2"
+      type: query
+      disabled: true
+    - name: paginate
+      value: "false"
+      type: query
+      disabled: true
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+  forwardAuthorizationHeader: false
