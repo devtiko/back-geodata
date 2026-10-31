@@ -83,9 +83,7 @@ def test_nearby_maps_items_and_rounds_distance() -> None:
 
   result = service.nearby(filters, pagination)
 
-  repository.nearby.assert_called_once_with(
-    filters=filters, skip=0, limit=10
-  )
+  repository.nearby.assert_called_once_with(filters=filters, skip=0, limit=10)
   assert result.items[0].locality.id == "010010001"
   assert result.items[0].distance_km == 1.24
   assert result.meta.total_count == 1

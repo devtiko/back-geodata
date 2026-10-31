@@ -21,6 +21,4 @@ testpaths = ["tests"]
 pythonpath = ["."]
 
 [dependency-groups]
-dev = [
-    "pytest>=9.2.0",
-]
+dev = ["httpx2>=2.16.0", "pytest>=9.2.0", "testcontainers[postgres]>=4.15.0"]
