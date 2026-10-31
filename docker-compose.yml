@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgis/postgis:17-master
+    container_name: geodata_postgres
+    restart: always
+    ports:
+      - "${DB_PORT}:5432"
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql
+volumes:
+  postgres_data:

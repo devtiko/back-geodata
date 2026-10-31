@@ -1,0 +1,9 @@
+# Python
+__pycache__/
+.ruff_cache
+.venv/
+
+# Local
+.env
+.secrets
+data/
