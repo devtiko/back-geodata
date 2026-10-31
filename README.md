@@ -47,4 +47,13 @@ Con el servidor en marcha, la documentación interactiva de FastAPI está dispon
 
 - Las migraciones de esquema se mantienen en `alembic/versions/`; aplica cambios locales con `uv run alembic upgrade head`.
 - Los datos geográficos de localidades provienen de [geo-data](docs/geo-data.md) y se cargan mediante el CLI de mantenimiento.
-- No hay comandos de pruebas, lint, formato o tipado configurados en el proyecto.
+
+### Pruebas
+
+Las pruebas unitarias no necesitan servicios externos. Las pruebas de integración levantan un contenedor temporal con PostgreSQL/PostGIS mediante Testcontainers, aplican las migraciones y eliminan el contenedor al finalizar. Para ejecutarlas, Docker debe estar instalado y en ejecución.
+
+```bash
+uv run pytest tests/unit
+uv run pytest tests/integration
+uv run pytest
+```
